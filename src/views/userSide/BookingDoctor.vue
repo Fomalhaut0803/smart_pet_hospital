@@ -1,11 +1,11 @@
 <template>
     <el-form ref="form" :model="form" label-width="80px" class="form">
-        <!-- <el-form-item label="活动名称">
+        <el-form-item label="活动名称">
             <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="活动名称">
             <el-input v-model="form.name"></el-input>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="活动性质">
             <el-checkbox-group v-model="form.type">
                 <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
