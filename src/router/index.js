@@ -18,8 +18,35 @@ const routes = [
   },
   {
     path: '/login',
-    name: '登录页面',
+    name: 'login',
+    meta: {
+      name: '登录页面'
+    },
     component: () => import('../views/login/LoginView.vue')
+  },
+  {
+    path: '/booking',
+    name: 'booking',
+    meta: {
+      name: '左边导航栏'
+    },
+    component: () => import('../views/userSide/BookingDoctor.vue')
+  },
+  {
+    path: '/userIndex',
+    name: 'userIndex',
+    meta: {
+      name: '用户页面'
+    },
+    component: () => import('../views/userSide/UserLayoutView.vue'),
+    redirect: '/userIndex/bookingDoctor',
+    children: [
+      {
+        path: '/userIndex/bookingDoctor',
+        name: 'bookingDoctor',
+        component: () => import('../views/userSide/BookingDoctor.vue')
+      }
+    ]
   }
 ]
 
