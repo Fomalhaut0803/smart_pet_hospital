@@ -2,15 +2,15 @@
     <el-row class="leftView">
         <!-- <h2 class="tac">嘿嘿嘿宠物医院</h2> -->
         <el-col :span="12">
-            <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-menu unique-opened default-active="1-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
                 <el-submenu index="1">
                     <template slot="title">
                         <i class="el-icon-location"></i>
                         <span>救个喵吧</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item index="1-1">预约一下</el-menu-item>
-                        <el-menu-item index="1-2">猫猫病历</el-menu-item>
+                        <el-menu-item index="1-1" @click="navTo('/userIndex/bookingDoctor')">预约一下</el-menu-item>
+                        <el-menu-item index="1-2" @click="navTo('/userIndex/myPet')">猫猫病历</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="2">
@@ -19,7 +19,7 @@
                         <span>养个汪吧</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1">看看有啥</el-menu-item>
+                        <el-menu-item index="2-1" @click="jumpTo('https://channel.jd.com/pet.html')">看看有啥</el-menu-item>
                         <el-menu-item index="2-2">历史领养</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
@@ -52,6 +52,15 @@ export default {
     }
   },
   methods: {
+    jumpTo (url) {
+      window.location.href = url
+    },
+
+    // 路由跳转
+    navTo (url) {
+      this.$router.push(url)
+    },
+
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
     },

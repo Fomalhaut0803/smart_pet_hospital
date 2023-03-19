@@ -1,9 +1,16 @@
+<!--
+ * @Author: wei yin
+ * @Date: 2023-03-18 20:15:34
+ * @LastEditors: wei yin
+ * @LastEditTime: 2023-03-19 15:02:28
+ * @Description:
+-->
 <template>
     <div class="layout">
         <TopView class="top" :title="title"></TopView>
         <div class="right">
             <LeftView class="left"></LeftView>
-            <div class="main">
+            <div class="main scroll">
                 <router-view />
             </div>
         </div>
@@ -69,10 +76,14 @@ export default {
 
 .main {
     width: 100%;
-    height: 90%;
+    height: 100%;
+    padding: 10px;
 
     .form {
         width: 32%;
     }
+}
+.scroll{
+    overflow-y: scroll;
 }
 </style>

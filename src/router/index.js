@@ -1,28 +1,24 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-
-    component: () => import('../views/AboutView.vue')
-  },
-  {
-    path: '/login',
     name: 'login',
     meta: {
       name: '登录页面'
     },
     component: () => import('../views/login/LoginView.vue')
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    meta: {
+      name: '首页'
+    },
+    component: () => import('../views/home/HomeView.vue')
   },
   {
     path: '/booking',
@@ -47,11 +43,27 @@ const routes = [
         component: () => import('../views/userSide/BookingDoctor.vue')
       },
       {
+        path: '/userIndex/myPet',
+        name: 'MyPet',
+        meta: {
+          name: '我的宠物'
+        },
+        component: () => import('../views/pet/MyPet.vue')
+      },
+      {
         path: '/userIndex/userCases',
         name: 'userCases',
         component: () => import('../views/userSide/UserCases.vue')
       }
     ]
+  },
+  {
+    path: '/petDetail',
+    name: 'PetDetail',
+    meta: {
+      name: '宠物详情'
+    },
+    component: () => import('../views/pet/PetDetail.vue')
   }
 ]
 
