@@ -1,8 +1,8 @@
 <template>
     <el-row class="leftView">
+        <!-- <h2 class="tac">嘿嘿嘿宠物医院</h2> -->
         <el-col :span="12">
             <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-                <h2 class="tac">嘿嘿嘿宠物医院</h2>
                 <el-submenu index="1">
                     <template slot="title">
                         <i class="el-icon-location"></i>
@@ -51,11 +51,6 @@ export default {
 
     }
   },
-
-  mounted () {
-
-  },
-
   methods: {
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
@@ -69,19 +64,12 @@ export default {
 <style lang="scss" scoped>
 
 .leftView {
-    width: 15%;
-    height: 100%;
+    width: 20%;
+    height: 80%;
     box-sizing: border-box;
     ::v-deep .el-menu-item-group__title{
         padding: 0;
     }
-}
-
-h2 {
-    margin: 10px 0;
-    height: 30px;
-    font-family: 华文彩云;
-    color: #83c9c7;
 }
 ::v-deep .el-col-12{
     height: 100%;

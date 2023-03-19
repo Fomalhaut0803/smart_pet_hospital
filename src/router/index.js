@@ -45,6 +45,11 @@ const routes = [
         path: '/userIndex/bookingDoctor',
         name: 'bookingDoctor',
         component: () => import('../views/userSide/BookingDoctor.vue')
+      },
+      {
+        path: '/userIndex/userCases',
+        name: 'userCases',
+        component: () => import('../views/userSide/UserCases.vue')
       }
     ]
   }
