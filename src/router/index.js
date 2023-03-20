@@ -54,6 +54,14 @@ const routes = [
         path: '/userIndex/userCases',
         name: 'userCases',
         component: () => import('../views/userSide/UserCases.vue')
+      },
+      {
+        path: '/doctor',
+        name: 'patientList',
+        meta: {
+          name: '病人列表'
+        },
+        component: () => import('../views/doctor/PatientList.vue')
       }
     ]
   },
@@ -64,6 +72,14 @@ const routes = [
       name: '宠物详情'
     },
     component: () => import('../views/pet/PetDetail.vue')
+  },
+  {
+    path: '/visit',
+    name: 'Visit',
+    meta: {
+      name: '就诊页面'
+    },
+    component: () => import('../views/doctor/VisitView.vue')
   }
 ]
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main patientList">
     <el-divider content-position="left">查询条件</el-divider>
     <div class="top">
       <el-form
@@ -10,7 +10,12 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="日期" class="minlab">
-              <el-date-picker size="small" v-model="val" type="date" placeholder="选择日期">
+              <el-date-picker
+                size="small"
+                v-model="val"
+                type="date"
+                placeholder="选择日期"
+              >
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -24,7 +29,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="医生名" class="minlab">
+            <el-form-item label="主人" class="minlab">
               <el-input
                 size="small"
                 v-model="val"
@@ -61,11 +66,10 @@
     </div>
     <div class="buttonBox">
       <el-button type="primary">查询</el-button>
-      <el-button type="primary">新建预约</el-button>
     </div>
     <el-divider content-position="left">数据列表</el-divider>
     <div>
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="tableData" style="width: 100%" @row-click="navTo()">
         <el-table-column label="日期" width="150">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
@@ -74,59 +78,16 @@
         </el-table-column>
         <el-table-column label="宠物名字" prop="name"> </el-table-column>
         <el-table-column label="性别" prop="unit"> </el-table-column>
-        <el-table-column label="医生名" prop="num"> </el-table-column>
+        <el-table-column label="主人" prop="num"> </el-table-column>
         <el-table-column label="类型" prop="type"> </el-table-column>
-        <el-table-column label="治疗建议" prop="from"> </el-table-column>
-        <el-table-column label="操作" width="200" align="center">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >修改
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除
-          </el-button>
-        </el-table-column>
+        <el-table-column label="电话" prop="type"> </el-table-column>
       </el-table>
-      <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-        <el-form-item label="宠物名字">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="用户电话" prop="tel">
-          <el-input v-model="form.tel"></el-input>
-        </el-form-item>
-        <el-form-item label="预约时间">
-          <el-col :span="11">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="form.date1"
-            ></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="预约类型" prop="region">
-          <el-select v-model="form.region" placeholder="请选择预约类型">
-            <el-option label="驱虫" value="shanghai"></el-option>
-            <el-option label="注射疫苗" value="beijing"></el-option>
-            <el-option label="正常就医" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false"
-            >确 定</el-button
-          >
-        </div>
-      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SmartPetHospitalBookingDoctor',
-
   data () {
     return {
       val: '',
@@ -153,48 +114,17 @@ export default {
       searchInfo: '',
       select: '',
       searchList: '',
-      tableData: [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
+      tableData: [{}]
     }
   },
   methods: {
     onSubmit () {
       console.log('submit!')
+    },
+
+    // 路由跳转
+    navTo (row) {
+      this.$router.push({ name: 'Visit', params: row })
     }
   }
 }

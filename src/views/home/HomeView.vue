@@ -6,7 +6,7 @@
       </el-carousel-item>
     </el-carousel>
   <div class="banner">
-    <div class="sys">医生端</div>
+    <div class="sys" @click="navTo('/doctor')">医生端</div>
     <div class="sys" @click="navTo('/userIndex/bookingDoctor')">客户端</div>
     <div class="sys">管理员端</div>
   </div>
@@ -17,6 +17,11 @@ export default {
   data () {
     return {
     }
+  },
+  mounted () {
+    this.$get(this.$api.url.surgery, { page: 1 }).then(res => {
+      console.log(res)
+    })
   },
   methods: {
     // 路由跳转
