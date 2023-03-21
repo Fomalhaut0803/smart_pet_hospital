@@ -2,11 +2,7 @@
   <div class="main">
     <el-divider content-position="left">查询条件</el-divider>
     <div class="top">
-      <el-form
-        label-position="right"
-        label-width="140px"
-        style="paddingright: 20px"
-      >
+      <el-form label-position="right" label-width="140px" style="paddingright: 20px">
         <el-row>
           <el-col :span="6">
             <el-form-item label="日期" class="minlab">
@@ -16,30 +12,17 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="宠物名字" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入工单标题"
-              ></el-input>
+              <el-input size="small" v-model="val" placeholder="请输入工单标题"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="医生名" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入工单标题"
-              ></el-input>
+              <el-input size="small" v-model="val" placeholder="请输入工单标题"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="性别" class="minlab">
-              <el-select
-                v-model="val"
-                placeholder="请选择性别"
-                size="small"
-                clearable
-              >
+              <el-select v-model="val" placeholder="请选择性别" size="small" clearable>
                 <el-option label="公" value="公"> </el-option>
                 <el-option label="母" value="母"> </el-option>
               </el-select>
@@ -49,19 +32,15 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="类型" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入工单标题"
-              ></el-input>
+              <el-input size="small" v-model="val" placeholder="请输入工单标题"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </div>
     <div class="buttonBox">
-      <el-button type="primary">查询</el-button>
-      <el-button type="primary">新建预约</el-button>
+      <el-button type="primary" @click="getAllBooking()">查询</el-button>
+      <el-button type="primary" @click = "getNewBooking()">新建预约</el-button>
     </div>
     <el-divider content-position="left">数据列表</el-divider>
     <div>
@@ -72,24 +51,19 @@
             <span style="margin-left: 10px">{{ scope.row.date }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="宠物名字" prop="name"> </el-table-column>
-        <el-table-column label="性别" prop="unit"> </el-table-column>
-        <el-table-column label="医生名" prop="num"> </el-table-column>
+        <el-table-column label="宠物名字" prop="petName"> </el-table-column>
+        <el-table-column label="性别" prop="sex"> </el-table-column>
+        <el-table-column label="医生名" prop="doctor"> </el-table-column>
         <el-table-column label="类型" prop="type"> </el-table-column>
-        <el-table-column label="治疗建议" prop="from"> </el-table-column>
+        <!-- <el-table-column label="治疗建议" prop="from"> </el-table-column> -->
         <el-table-column label="操作" width="200" align="center">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >修改
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改
           </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">取消
           </el-button>
         </el-table-column>
       </el-table>
-      <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+      <el-dialog title="新建预约" :visible.sync="dialogFormVisible">
         <el-form-item label="宠物名字">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
@@ -98,11 +72,7 @@
         </el-form-item>
         <el-form-item label="预约时间">
           <el-col :span="11">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="form.date1"
-            ></el-date-picker>
+            <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"></el-date-picker>
           </el-col>
         </el-form-item>
         <el-form-item label="预约类型" prop="region">
@@ -114,9 +84,7 @@
         </el-form-item>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -153,48 +121,30 @@ export default {
       searchInfo: '',
       select: '',
       searchList: '',
-      tableData: [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
+      tableData: [{}]
     }
+  },
+  mounted () {
+    this.getAllBooking()
   },
   methods: {
     onSubmit () {
       console.log('submit!')
+    },
+    getAllBooking () {
+      const form = {
+        page: 1
+      }
+      this.$get(this.$api.url.allBooking, form).then(res => {
+        this.tableData = res.content
+        console.log(res.content)
+      })
+    },
+    getNewBooking () {
+      this.$post(this.$api.url.addBooking, {}).then(res => {
+        this.tableData = res.content
+        console.log(res)
+      })
     }
   }
 }

@@ -1,32 +1,24 @@
 <template>
-  <div class="visit">
+  <div class="visit" @click="getAllBooking()">
     <h2>大黄</h2>
     <b>宠物信息</b>
     <el-divider></el-divider>
     <div class="info-box">
-      <span class="title">性别： </span>
-      <span class="info">公</span>
-    </div>
-    <div class="info-box">
-      <span class="title">类型： </span>
-      <span class="info">牛</span>
-    </div>
-    <div class="info-box">
-      <span class="title">性别： </span>
-      <span class="info">公</span>
-    </div>
-    <div class="info-box">
-      <span class="title">类型： </span>
-      <span class="info">牛</span>
-    </div>
-    <div class="info-box">
-      <span class="title">性别： </span>
-      <span class="info">公</span>
-    </div>
-    <div class="info-box">
-      <span class="title">类型： </span>
-      <span class="info">牛</span>
-    </div>
+        <span class="title">名字： </span>
+        <span class="info" prop="petName"></span>
+      </div>
+      <div class="info-box">
+        <span class="title">年龄： </span>
+        <span class="info">牛</span>
+      </div>
+      <div class="info-box">
+        <span class="title">性别： </span>
+        <span class="info">公</span>
+      </div>
+      <div class="info-box">
+        <span class="title">类型： </span>
+        <span class="info">牛</span>
+      </div>
     <div><b>病情描述</b></div>
     <el-divider></el-divider>
     <div class="info-box" style="width: 100%">
@@ -49,7 +41,7 @@
     <el-divider></el-divider>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column label="药品名称" prop="name"> </el-table-column>
-      <el-table-column label="数量" prop="name"> </el-table-column>
+      <el-table-column label="数量" prop="num"> </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
           >修改
@@ -94,10 +86,22 @@ export default {
       tableData: []
     }
   },
+  mounted () {
+    this.getAllBooking()
+  },
   methods: {
     // 返回
     goBack () {
       this.$router.go(-1)
+    },
+    getAllBooking () {
+      const form = {
+        page: 1
+      }
+      this.$get(this.$api.url.allBooking, form).then(res => {
+        this.tableData = res.content
+        console.log(res.content)
+      })
     }
   }
 }

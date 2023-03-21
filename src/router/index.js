@@ -21,14 +21,6 @@ const routes = [
     component: () => import('../views/home/HomeView.vue')
   },
   {
-    path: '/booking',
-    name: 'booking',
-    meta: {
-      name: '左边导航栏'
-    },
-    component: () => import('../views/userSide/BookingDoctor.vue')
-  },
-  {
     path: '/userIndex',
     name: 'userIndex',
     meta: {
@@ -40,6 +32,9 @@ const routes = [
       {
         path: '/userIndex/bookingDoctor',
         name: 'bookingDoctor',
+        meta: {
+          name: '预约看病'
+        },
         component: () => import('../views/userSide/BookingDoctor.vue')
       },
       {
@@ -74,12 +69,41 @@ const routes = [
     component: () => import('../views/pet/PetDetail.vue')
   },
   {
-    path: '/visit',
-    name: 'Visit',
+    path: '/doctorIndex',
+    name: 'doctorIndex',
     meta: {
       name: '就诊页面'
     },
-    component: () => import('../views/doctor/VisitView.vue')
+    component: () => import('../views/doctor/DoctorLayout.vue'),
+    redirect: '/doctorIndex/patientList',
+    children: [
+      {
+        path: '/doctorIndex/visit',
+        name: 'Visit',
+        component: () => import('../views/doctor/VisitView.vue')
+      },
+      {
+        path: '/doctorIndex/patientList',
+        name: 'patientList',
+        component: () => import('../views/doctor/PatientList.vue')
+      }
+    ]
+  },
+  {
+    path: '/manageIndex',
+    name: 'manageIndex',
+    meta: {
+      name: '管理页面'
+    },
+    component: () => import('../views/manageSide/ManageLayout.vue'),
+    redirect: '/manageIndex/PurchaseView',
+    children: [
+      {
+        path: '/manageIndex/PurchaseView',
+        name: 'PurchaseView',
+        component: () => import('../views/manageSide/PurchaseView.vue')
+      }
+    ]
   }
 ]
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="main patientList">
+  <div class="main patientList" @clicl="getAllBooking()">
     <el-divider content-position="left">查询条件</el-divider>
     <div class="top">
       <el-form
@@ -76,11 +76,11 @@
             <span style="margin-left: 10px">{{ scope.row.date }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="宠物名字" prop="name"> </el-table-column>
-        <el-table-column label="性别" prop="unit"> </el-table-column>
-        <el-table-column label="主人" prop="num"> </el-table-column>
+        <el-table-column label="宠物名字" prop="petName"> </el-table-column>
+        <el-table-column label="性别" prop="sex"> </el-table-column>
+        <el-table-column label="主人" prop="master"> </el-table-column>
         <el-table-column label="类型" prop="type"> </el-table-column>
-        <el-table-column label="电话" prop="type"> </el-table-column>
+        <el-table-column label="电话" prop="tel"> </el-table-column>
       </el-table>
     </div>
   </div>
@@ -117,11 +117,22 @@ export default {
       tableData: [{}]
     }
   },
+  mounted () {
+    this.getAllBooking()
+  },
   methods: {
     onSubmit () {
       console.log('submit!')
     },
-
+    getAllBooking () {
+      const form = {
+        page: 1
+      }
+      this.$get(this.$api.url.allBooking, form).then(res => {
+        this.tableData = res.content
+        console.log(res.content)
+      })
+    },
     // 路由跳转
     navTo (row) {
       this.$router.push({ name: 'Visit', params: row })

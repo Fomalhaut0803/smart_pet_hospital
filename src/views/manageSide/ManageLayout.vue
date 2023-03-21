@@ -11,11 +11,10 @@
 </template>
 
 <script>
-import LeftView from '@/components/LeftView.vue'
+import LeftView from '@/components/ManageLeftView.vue'
 import TopView from '@/components/TopView.vue'
 
 export default {
-  name: 'SmartPetHospitalUserLayoutView',
 
   data () {
     return {
