@@ -2,27 +2,49 @@
   <div class="main">
     <el-divider content-position="left">查询条件</el-divider>
     <div class="top">
-      <el-form label-position="right" label-width="140px" style="paddingright: 20px">
+      <el-form
+        label-position="right"
+        label-width="140px"
+        style="paddingright: 20px"
+      >
         <el-row>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="日期" class="minlab">
-              <el-date-picker size="small" v-model="val" type="date" placeholder="选择日期">
+              <el-date-picker
+                size="small"
+                v-model="val"
+                type="date"
+                placeholder="选择日期"
+              >
               </el-date-picker>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="6">
             <el-form-item label="宠物名字" class="minlab">
-              <el-input size="small" v-model="val" placeholder="请输入工单标题"></el-input>
+              <el-input
+                size="small"
+                v-model="val"
+                placeholder="请输入宠物名字"
+              ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="医生名" class="minlab">
-              <el-input size="small" v-model="val" placeholder="请输入工单标题"></el-input>
+              <el-input
+                size="small"
+                v-model="val"
+                placeholder="请输入工单标题"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="性别" class="minlab">
-              <el-select v-model="val" placeholder="请选择性别" size="small" clearable>
+              <el-select
+                v-model="val"
+                placeholder="请选择性别"
+                size="small"
+                clearable
+              >
                 <el-option label="公" value="公"> </el-option>
                 <el-option label="母" value="母"> </el-option>
               </el-select>
@@ -32,17 +54,23 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="类型" class="minlab">
-              <el-input size="small" v-model="val" placeholder="请输入工单标题"></el-input>
+              <el-input
+                size="small"
+                v-model="val"
+                placeholder="请输入工单标题"
+              ></el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
     </div>
     <div class="buttonBox">
-      <el-button type="primary" @click="getAllBooking()">查询</el-button>
-      <el-button type="primary" @click = "getNewBooking()">新建预约</el-button>
+      <el-button type="primary" @click="findBooking()">查询</el-button>
+      <el-button type="primary" @click="dialogFormVisible = true"
+        >新建预约</el-button
+      >
     </div>
-    <el-divider content-position="left">数据列表</el-divider>
+    <el-divider content-position="left">预约列表</el-divider>
     <div>
       <el-table :data="tableData" style="width: 100%">
         <el-table-column label="日期" width="150">
@@ -57,34 +85,59 @@
         <el-table-column label="类型" prop="type"> </el-table-column>
         <!-- <el-table-column label="治疗建议" prop="from"> </el-table-column> -->
         <el-table-column label="操作" width="200" align="center">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改
-          </el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">取消
-          </el-button>
+          <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            >修改
+          </el-button> -->
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="danger"
+              @click="deleteBooking(scope.row)"
+              >取消预约
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
       <el-dialog title="新建预约" :visible.sync="dialogFormVisible">
-        <el-form-item label="宠物名字">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="用户电话" prop="tel">
-          <el-input v-model="form.tel"></el-input>
-        </el-form-item>
-        <el-form-item label="预约时间">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="预约类型" prop="region">
-          <el-select v-model="form.region" placeholder="请选择预约类型">
-            <el-option label="驱虫" value="shanghai"></el-option>
-            <el-option label="注射疫苗" value="beijing"></el-option>
-            <el-option label="正常就医" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="宠物名字">
+            <el-input v-model="form.petName"></el-input>
+          </el-form-item>
+          <el-form-item label="宠物性别" prop="region">
+            <el-select v-model="form.sex" placeholder="请选择预约类型">
+              <el-option label="公" value="公"></el-option>
+              <el-option label="母" value="母"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="选择医生" prop="region">
+            <el-select v-model="form.doctor" placeholder="请选择预约类型">
+              <el-option label="wu" value="wu"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="用户电话" prop="tel">
+            <el-input v-model="form.tel"></el-input>
+          </el-form-item>
+          <el-form-item label="预约时间">
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="选择日期"
+                v-model="form.date"
+                value-format="yyyy-MM-dd"
+              ></el-date-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="预约类型" prop="region">
+            <el-select v-model="form.type" placeholder="请选择预约类型">
+              <el-option label="驱虫" value="驱虫"></el-option>
+              <el-option label="注射疫苗" value="注射疫苗"></el-option>
+              <el-option label="正常就医" value="正常就医"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="primary" @click="getNewBooking">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -93,21 +146,10 @@
 
 <script>
 export default {
-  name: 'SmartPetHospitalBookingDoctor',
-
   data () {
     return {
       val: '',
-      form: {
-        name: '',
-        tel: '',
-        region: '',
-        date1: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
+      form: {},
       rules: {
         tel: [
           { required: true, message: '请输入电话号码', trigger: 'blur' },
@@ -131,19 +173,52 @@ export default {
     onSubmit () {
       console.log('submit!')
     },
+
+    // 查询预约列表
+    searchBookingList () {
+      this.$get(this.$api.url.findBooking).then((res) => {
+        this.tableData = res.content
+        console.log(res)
+      })
+    },
+
+    // 获取预约列表所有
     getAllBooking () {
       const form = {
         page: 1
       }
-      this.$get(this.$api.url.allBooking, form).then(res => {
+      this.$get(this.$api.url.allBooking, form).then((res) => {
         this.tableData = res.content
         console.log(res.content)
       })
     },
+
+    // 获取预约列表
+    findBooking () {
+      const form = {
+        searchName: 'petName',
+        searchInfo: this.val,
+        page: 1
+      }
+      this.$get(this.$api.url.findBooking, form).then((res) => {
+        this.tableData = res.data
+        console.log(res.data)
+      })
+    },
+
+    // 新增预约
     getNewBooking () {
-      this.$post(this.$api.url.addBooking, {}).then(res => {
-        this.tableData = res.content
-        console.log(res)
+      this.$post(this.$api.url.addBooking, this.form).then((res) => {
+        this.dialogFormVisible = false
+        this.getAllBooking()
+      })
+    },
+
+    // 取消预约
+    deleteBooking (row) {
+      console.log(row)
+      this.$get(this.$api.url.deleteBooking, { id: row._id }).then((res) => {
+        this.getAllBooking()
       })
     }
   }

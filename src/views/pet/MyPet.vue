@@ -1,15 +1,15 @@
 <template>
   <div class="myPet">
     <div class="pets">
-      <div class="pet" v-for="item in 10" :key="item">
+      <div class="pet" v-for="item in petList" :key="item._id">
         <el-card
           class="pet-card"
           shadow="hover"
           :body-style="{ padding: '0px' }"
         >
           <div slot="header" class="clearfix">
-            <span>大黄</span>
-            <el-button style="float: right; padding: 3px 0" type="text" @click="navTo('/petDetail')"
+            <span>{{item.name}}</span>
+            <el-button style="float: right; padding: 3px 0" type="text" @click="navTo(item.name)"
               >宠物详情</el-button
             >
           </div>
@@ -26,12 +26,28 @@
 export default {
   data () {
     return {
-      currentDate: new Date()
+      currentDate: new Date(),
+      petList: []
     }
   },
+  mounted () {
+    this.findPets()
+  },
   methods: {
-    navTo (url) {
-      this.$router.push(url)
+    navTo (name) {
+      this.$router.push({ name: 'PetDetail', params: { name: name } })
+    },
+    // 查询宠物
+    findPets () {
+      const form = {
+        searchName: 'petName',
+        searchInfo: '',
+        page: 1
+      }
+      this.$get(this.$api.url.allPet, form).then(res => {
+        this.petList = res.content
+        console.log(res)
+      })
     }
   }
 }

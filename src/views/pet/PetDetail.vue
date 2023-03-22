@@ -1,23 +1,19 @@
 <template>
-  <div class="petDetail" @click="getAllCases()">
-    <h2>大黄</h2>
+  <div class="petDetail">
+    <h2>{{petName}}</h2>
     <b>宠物信息</b>
     <el-divider></el-divider>
       <div class="info-box">
-        <span class="title">名字： </span>
-        <span class="info" prop="petName"></span>
-      </div>
-      <div class="info-box">
         <span class="title">年龄： </span>
-        <span class="info">牛</span>
+        <span class="info">{{petInfo.age}}</span>
       </div>
       <div class="info-box">
         <span class="title">性别： </span>
-        <span class="info">公</span>
+        <span class="info">{{petInfo.sex}}</span>
       </div>
       <div class="info-box">
         <span class="title">类型： </span>
-        <span class="info">牛</span>
+        <span class="info">{{petInfo.type}}</span>
       </div>
     <div><b>就诊记录</b></div>
     <el-divider></el-divider>
@@ -33,17 +29,6 @@
         <el-table-column label="医生名" prop="doctor"> </el-table-column>
         <el-table-column label="类型" prop="type"> </el-table-column>
         <el-table-column label="治疗建议" prop="description"> </el-table-column>
-        <el-table-column label="操作" width="200" align="center">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >修改
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除
-          </el-button>
-        </el-table-column>
       </el-table>
     <div class="bottom">
        <el-button @click="navTo('/userIndex/myPet')">返回</el-button>
@@ -54,23 +39,38 @@
 export default {
   data () {
     return {
-      tableData: []
+      tableData: [],
+      petName: '',
+      petInfo: {}
     }
   },
   mounted () {
-    this.getAllCases()
+    this.petName = this.$route.params.name
+    this.findPet({
+      searchName: 'name',
+      searchInfo: this.petName,
+      page: 1
+    })
+    this.findCases({
+      searchName: 'petName',
+      searchInfo: this.petName,
+      page: 1
+    })
   },
   methods: {
     navTo (url) {
       this.$router.push(url)
     },
-    getAllCases () {
-      const form = {
-        page: 1
-      }
-      this.$get(this.$api.url.allCases, form).then(res => {
-        this.tableData = res.content
-        console.log(res.content)
+    findCases (form) {
+      this.$get(this.$api.url.findCases, form).then(res => {
+        this.tableData = res.data
+        console.log(res.data)
+      })
+    },
+    findPet (form) {
+      this.$get(this.$api.url.findPet, form).then(res => {
+        this.petInfo = res.data[0]
+        console.log(res)
       })
     }
   }
