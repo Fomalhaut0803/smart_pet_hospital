@@ -18,20 +18,35 @@
     <div><b>病情描述</b></div>
     <el-divider></el-divider>
     <div class="info-box" style="width: 100%">
-      <el-input type="textarea" v-model="form.description" :autosize="{ minRows: 4, maxRows: 6 }"></el-input>
+      <el-input
+        type="textarea"
+        v-model="description"
+        :autosize="{ minRows: 4, maxRows: 6 }"
+      ></el-input>
     </div>
     <div>
       <b>用药指导</b>
-      <el-button type="primary" size="small" class="fr" @click="dialogTableVisible = true">新 增</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        class="fr"
+        @click="dialogTableVisible = true"
+        >新 增</el-button
+      >
     </div>
     <el-divider></el-divider>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column label="药品名称" prop="name"> </el-table-column>
       <el-table-column label="数量" prop="num"> </el-table-column>
       <el-table-column label="操作" width="200" align="center">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改
+        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+          >修改
         </el-button>
-        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)"
+          >删除
         </el-button>
       </el-table-column>
     </el-table>
@@ -42,17 +57,31 @@
 
     <!-- 弹框 -->
     <el-dialog title="药品列表" :visible.sync="dialogTableVisible">
-      <el-input v-model="medicineName" size="small" style="width: 180px"></el-input>
-      <el-button type="primary" size="small" @click="findMedicine">搜 索</el-button>
-      <el-table :data="medicineList">
+      <el-input
+        v-model="medicineName"
+        size="small"
+        style="width: 180px"
+      ></el-input>
+      <el-button type="primary" size="small" @click="findMedicine"
+        >搜 索</el-button
+      >
+      <el-table :data="[{name:'11'}]" @selection-change="selectMedicine">
         <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column property="date" label="药品名称" prop="name"></el-table-column>
-        <el-table-column property="date" label="数量"></el-table-column>
+        <el-table-column
+          property="date"
+          label="药品名称"
+          prop="name"
+        ></el-table-column>
+        <el-table-column property="date" label="数量">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.num"></el-input>
+          </template>
+        </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogTableVisible = false">取 消</el-button>
         <!-- <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button> -->
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="addMedicine">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -67,15 +96,17 @@ export default {
       tableData: [],
       petName: '',
       petInfo: {},
-      form: {
-      },
+      form: {},
       medicineName: '',
-      medicineList: []
+      medicineList: [],
+      medicineSelection: [], // 选中的药物列表
+      description: '' // 病情描述
     }
   },
   mounted () {
     this.getAllBooking()
     this.petName = this.$route.params.petName
+
     this.findPet({
       searchName: 'petName',
       searchInfo: this.petName,
@@ -83,6 +114,19 @@ export default {
     })
   },
   methods: {
+    // 添加药品
+    addMedicine () {
+      this.tableData.push(...this.medicineSelection)
+      console.log(this.tableData)
+      this.dialogTableVisible = false
+    },
+
+    // 选中药品
+    selectMedicine (selection) {
+      console.log(selection)
+      this.medicineSelection = selection
+    },
+
     // 返回
     goBack () {
       this.$router.go(-1)
@@ -93,7 +137,7 @@ export default {
         searchInfo: '',
         page: 1
       }
-      this.$get(this.$api.url.findPet, form).then(res => {
+      this.$get(this.$api.url.findPet, form).then((res) => {
         this.petInfo = res.data[0]
         console.log(res)
       })
@@ -102,15 +146,20 @@ export default {
       const form = {
         page: 1
       }
-      this.$get(this.$api.url.allBooking, form).then(res => {
+      this.$get(this.$api.url.allBooking, form).then((res) => {
         this.tableData = res.content
         console.log(res.content)
       })
     },
+
+    // 提交
     addCases () {
-      this.$post(this.$api.url.addCases, {}).then(res => {
-        this.tableData = res.content
-        console.log(res.content)
+      const form = { ...this.petInfo }
+      form.tableData = this.tableData // 用药指导
+      form.description = this.description// 病情描述
+      console.log(form)
+      this.$post(this.$api.url.addCases, form).then((res) => {
+        this.$router.go(-1) // 返回
       })
     },
     findMedicine () {
@@ -119,7 +168,7 @@ export default {
         searchInfo: this.medicineName,
         page: 1
       }
-      this.$get(this.$api.url.findMedicine, form).then(res => {
+      this.$get(this.$api.url.findMedicine, form).then((res) => {
         this.medicineList = res.data
         console.log(res)
       })
