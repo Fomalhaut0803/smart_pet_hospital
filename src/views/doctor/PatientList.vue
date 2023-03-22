@@ -4,11 +4,11 @@
     <div class="top">
       <el-form
         label-position="right"
-        label-width="140px"
+        label-width="120px"
         style="paddingright: 20px"
       >
         <el-row>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="日期" class="minlab">
               <el-date-picker
                 size="small"
@@ -18,17 +18,17 @@
               >
               </el-date-picker>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="6">
             <el-form-item label="宠物名字" class="minlab">
               <el-input
                 size="small"
                 v-model="val"
-                placeholder="请输入工单标题"
+                placeholder="请输入宠物名字"
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="主人" class="minlab">
               <el-input
                 size="small"
@@ -60,16 +60,16 @@
                 placeholder="请输入工单标题"
               ></el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
     </div>
     <div class="buttonBox">
-      <el-button type="primary">查询</el-button>
+      <el-button type="primary" @click="findBooking()">查询</el-button>
     </div>
     <el-divider content-position="left">数据列表</el-divider>
     <div>
-      <el-table :data="tableData" style="width: 100%" @row-click="navTo()">
+      <el-table :data="tableData" style="width: 100%" @row-click="navTo">
         <el-table-column label="日期" width="150">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
@@ -133,9 +133,21 @@ export default {
         console.log(res.content)
       })
     },
+    findBooking () {
+      const form = {
+        searchName: 'petName',
+        searchInfo: this.val,
+        page: 1
+      }
+      this.$get(this.$api.url.findBooking, form).then((res) => {
+        this.tableData = res.data
+        console.log(res.data)
+      })
+    },
     // 路由跳转
     navTo (row) {
       this.$router.push({ name: 'Visit', params: row })
+      console.log(row)
     }
   }
 }

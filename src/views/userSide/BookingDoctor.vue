@@ -4,7 +4,7 @@
     <div class="top">
       <el-form
         label-position="right"
-        label-width="140px"
+        label-width="120px"
         style="paddingright: 20px"
       >
         <el-row>

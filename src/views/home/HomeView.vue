@@ -1,11 +1,14 @@
 <template>
   <div class="homeView">
-    <el-carousel class="carousel">
-      <el-carousel-item v-for="item in imgList" :key="item">
-        <img :src="item" alt="" />
-        <!-- <h3 class="small">{{ item }}</h3> -->
-      </el-carousel-item>
-    </el-carousel>
+    <div class="top">
+      <h1>嘿嘿嘿宠物医院</h1>
+      <el-carousel class="carousel" trigger="click" height="500px" :interval=3000>
+        <el-carousel-item v-for="item in imgList" :key="item">
+          <img :src="item" alt="">
+          <!-- <h3 class="small">{{ item }}</h3> -->
+        </el-carousel-item>
+      </el-carousel>
+    </div>
     <div class="banner">
       <div class="sys" @click="navTo('/doctorIndex')">医生端</div>
       <div class="sys" @click="navTo('/userIndex/bookingDoctor')">客户端</div>
@@ -54,29 +57,45 @@ export default {
   width: 100%;
   height: 100%;
 
-  .carousel {
-    background: pink;
-    height: 80%;
-    width: 100%;
+}
 
-    ::v-deep .el-carousel__container {
-      height: 100%;
-    }
+.top {
+  height: 80%;
+  width: 100%;
+  h1 {
+    font-family: HarmonyOS, Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    text-align: center;
+  }
+}
+.carousel {
+  // background: pink;
+  height: 90%;
+  width: 100%;
+
+  ::v-deep .el-carousel__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .banner {
-    display: flex;
-    height: 20%;
+  ::v-deep .el-carousel__container {
+    height: 100%;
+  }
+}
 
-    .sys {
-      width: 33.33%;
-      border-right: 1px solid #000;
-      height: 100%;
-      cursor: pointer;
+.banner {
+  display: flex;
+  height: 20%;
 
-      &:last-child {
-        border: none;
-      }
+  .sys {
+    width: 33.33%;
+    border-right: 1px solid #000;
+    height: 100%;
+    cursor: pointer;
+
+    &:last-child {
+      border: none;
     }
   }
 }
