@@ -5,6 +5,8 @@ import store from './store'
 import './base.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+// 引入 echarts
+import * as echarts from 'echarts'
 
 import { fetch, patch, put, jsonPost } from './api/http'
 import API from './api/API'
@@ -17,6 +19,7 @@ Vue.prototype.$post = jsonPost
 Vue.prototype.$get = fetch
 Vue.prototype.$patch = patch
 Vue.prototype.$put = put
+Vue.prototype.$echarts = echarts
 
 new Vue({
   router,

@@ -18,35 +18,20 @@
     <div><b>病情描述</b></div>
     <el-divider></el-divider>
     <div class="info-box" style="width: 100%">
-      <el-input
-        type="textarea"
-        v-model="description"
-        :autosize="{ minRows: 4, maxRows: 6 }"
-      ></el-input>
+      <el-input type="textarea" v-model="description" :autosize="{ minRows: 4, maxRows: 6 }"></el-input>
     </div>
     <div>
       <b>用药指导</b>
-      <el-button
-        type="primary"
-        size="small"
-        class="fr"
-        @click="dialogTableVisible = true"
-        >新 增</el-button
-      >
+      <el-button type="primary" size="small" class="fr" @click="dialogTableVisible = true">新 增</el-button>
     </div>
-    <el-divider></el-divider>
+    <!-- <el-divider></el-divider> -->
     <el-table :data="tableData" style="width: 100%">
       <el-table-column label="药品名称" prop="name"> </el-table-column>
       <el-table-column label="数量" prop="num"> </el-table-column>
       <el-table-column label="操作" width="200" align="center">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-          >修改
+        <el-button size="mini">修改
         </el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
-          >删除
+        <el-button size="mini" type="danger">删除
         </el-button>
       </el-table-column>
     </el-table>
@@ -57,21 +42,11 @@
 
     <!-- 弹框 -->
     <el-dialog title="药品列表" :visible.sync="dialogTableVisible">
-      <el-input
-        v-model="medicineName"
-        size="small"
-        style="width: 180px"
-      ></el-input>
-      <el-button type="primary" size="small" @click="findMedicine"
-        >搜 索</el-button
-      >
-      <el-table :data="[{name:'11'}]" @selection-change="selectMedicine">
+      <el-input v-model="medicineName" size="small" style="width: 180px"></el-input>
+      <el-button type="primary" size="small" @click="findMedicine">搜 索</el-button>
+      <el-table :data=medicineList @selection-change="selectMedicine">
         <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column
-          property="date"
-          label="药品名称"
-          prop="name"
-        ></el-table-column>
+        <el-table-column property="date" label="药品名称" prop="name"></el-table-column>
         <el-table-column property="date" label="数量">
           <template slot-scope="scope">
             <el-input v-model="scope.row.num"></el-input>
@@ -104,7 +79,7 @@ export default {
     }
   },
   mounted () {
-    this.getAllBooking()
+    this.findBooking()
     this.petName = this.$route.params.petName
 
     this.findPet({
@@ -133,8 +108,8 @@ export default {
     },
     findPet () {
       const form = {
-        searchName: 'name',
-        searchInfo: '',
+        searchName: 'petName',
+        searchInfo: this.petName,
         page: 1
       }
       this.$get(this.$api.url.findPet, form).then((res) => {
@@ -142,12 +117,14 @@ export default {
         console.log(res)
       })
     },
-    getAllBooking () {
+    findBooking () {
       const form = {
+        searchName: 'PetName',
+        searchInfo: this.petName,
         page: 1
       }
-      this.$get(this.$api.url.allBooking, form).then((res) => {
-        this.tableData = res.content
+      this.$get(this.$api.url.findBooking, form).then((res) => {
+        this.bookingInfo = res.content
         console.log(res.content)
       })
     },
@@ -155,9 +132,9 @@ export default {
     // 提交
     addCases () {
       const form = { ...this.petInfo }
-      form.tableData = this.tableData // 用药指导
+      form.drug = this.tableData // 用药指导
       form.description = this.description// 病情描述
-      console.log(form)
+      console.log('form:' + form)
       this.$post(this.$api.url.addCases, form).then((res) => {
         this.$router.go(-1) // 返回
       })

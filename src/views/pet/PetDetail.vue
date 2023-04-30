@@ -1,5 +1,5 @@
 <template>
-  <div class="petDetail">
+  <div class="Detail">
     <h2>{{ petName }}</h2>
     <b>宠物信息</b>
     <el-divider></el-divider>
@@ -31,8 +31,31 @@
       <el-table-column label="治疗建议" prop="description"> </el-table-column>
     </el-table>
     <div class="bottom">
+      <el-button @click="dialogFormVisible = true">修改</el-button>
       <el-button @click="navTo('/userIndex/myPet')">返回</el-button>
     </div>
+    <el-dialog title="修改宠物信息" :visible.sync="dialogFormVisible" width="500px">
+      <el-form ref="form" :model="form" label-width="60px">
+        <el-form-item label="宠物名">
+          <el-input v-model="form.petName"></el-input>
+        </el-form-item>
+        <el-form-item label="性别">
+          <!-- <el-input v-model="form.sex" disabled></el-input> -->
+          <div>{{ form.sex }}</div>
+        </el-form-item>
+        <el-form-item label="类型">
+          <el-input v-model="form.type"></el-input>
+        </el-form-item>
+        <el-form-item label="年龄">
+          <el-input v-model="form.age"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="addPet()">添加</el-button>
+          <el-button @click="dialogFormVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -41,15 +64,20 @@ export default {
     return {
       tableData: [],
       petName: '',
-      petInfo: {}
+      petInfo: {},
+      form: { sex: '' },
+      dialogFormVisible: false,
+      petDetail: {}
     }
   },
   mounted () {
-    this.petName = this.$route.params.name
+    this.petName = this.$route.params.petName
+    this.petDetail = this.$route.params
+    this.form.sex = this.petDetail.sex
+    this.form._id = this.petDetail._id
+    console.log(this.petDetail)
     this.findPet({
-      searchName: 'name',
-      searchInfo: this.petName,
-      page: 1
+      petName: this.petName
     })
     this.findCases({
       searchName: 'petName',
@@ -68,16 +96,39 @@ export default {
       })
     },
     findPet (form) {
-      this.$get(this.$api.url.findPet, form).then(res => {
+      console.log(form)
+      this.$get(this.$api.url.findPet, {
+        searchName: 'petName',
+        searchInfo: form.petName,
+        page: 1
+      }).then(res => {
         this.petInfo = res.data[0]
         console.log(res)
+      })
+    },
+    // 修改宠物信息
+    findPetById () {
+      this.$get(this.$api.url.findPet, {
+        searchName: '_id',
+        searchInfo: this._id,
+        page: 1
+      }).then(res => {
+        this.petInfo = res.data[0]
+        console.log(res)
+      })
+    },
+    addPet () {
+      console.log(this.$api.url.addPet)
+      this.$post(this.$api.url.addPet, this.form).then((res) => {
+        this.dialogFormVisible = false
+        this.findPet(this.form)
       })
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.petDetail {
+.Detail {
   width: 100%;
   padding: 20px;
 
@@ -104,4 +155,6 @@ export default {
     justify-content: center;
     margin-top: 40px;
   }
-}</style>
+}
+
+</style>

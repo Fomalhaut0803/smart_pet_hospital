@@ -2,8 +2,8 @@
     <div class="top">
         <h2>嘿嘿嘿宠物医院</h2>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="topView">
-            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>{{ title }}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' }">登录</el-breadcrumb-item>
+            <!-- <el-breadcrumb-item>{{ title }}</el-breadcrumb-item> -->
         </el-breadcrumb>
     </div>
 </template>

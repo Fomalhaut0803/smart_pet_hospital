@@ -1,66 +1,14 @@
 <template>
-  <div class="main patientList" @clicl="getAllBooking()">
+  <div class="main patientList" @click="getAllBooking()">
     <el-divider content-position="left">查询条件</el-divider>
     <div class="top">
-      <el-form
-        label-position="right"
-        label-width="120px"
-        style="paddingright: 20px"
-      >
+      <el-form label-position="right" label-width="120px" style="paddingright: 20px">
         <el-row>
-          <!-- <el-col :span="6">
-            <el-form-item label="日期" class="minlab">
-              <el-date-picker
-                size="small"
-                v-model="val"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </el-col> -->
           <el-col :span="6">
             <el-form-item label="宠物名字" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入宠物名字"
-              ></el-input>
+              <el-input size="small" v-model="val" placeholder="请输入宠物名字"></el-input>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="6">
-            <el-form-item label="主人" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入工单标题"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="性别" class="minlab">
-              <el-select
-                v-model="val"
-                placeholder="请选择性别"
-                size="small"
-                clearable
-              >
-                <el-option label="公" value="公"> </el-option>
-                <el-option label="母" value="母"> </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="类型" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入工单标题"
-              ></el-input>
-            </el-form-item>
-          </el-col> -->
         </el-row>
       </el-form>
     </div>

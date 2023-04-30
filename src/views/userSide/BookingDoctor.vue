@@ -2,73 +2,19 @@
   <div class="main">
     <el-divider content-position="left">查询条件</el-divider>
     <div class="top">
-      <el-form
-        label-position="right"
-        label-width="120px"
-        style="paddingright: 20px"
-      >
+      <el-form label-position="right" label-width="120px" style="paddingright: 20px">
         <el-row>
-          <!-- <el-col :span="6">
-            <el-form-item label="日期" class="minlab">
-              <el-date-picker
-                size="small"
-                v-model="val"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </el-col> -->
           <el-col :span="6">
             <el-form-item label="宠物名字" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入宠物名字"
-              ></el-input>
+              <el-input size="small" v-model="val" placeholder="请输入宠物名字"></el-input>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="6">
-            <el-form-item label="医生名" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入工单标题"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="性别" class="minlab">
-              <el-select
-                v-model="val"
-                placeholder="请选择性别"
-                size="small"
-                clearable
-              >
-                <el-option label="公" value="公"> </el-option>
-                <el-option label="母" value="母"> </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="类型" class="minlab">
-              <el-input
-                size="small"
-                v-model="val"
-                placeholder="请输入工单标题"
-              ></el-input>
-            </el-form-item>
-          </el-col> -->
         </el-row>
       </el-form>
     </div>
     <div class="buttonBox">
       <el-button type="primary" @click="findBooking()">查询</el-button>
-      <el-button type="primary" @click="dialogFormVisible = true"
-        >新建预约</el-button
-      >
+      <el-button type="primary" @click="dialogFormVisible = true">新建预约</el-button>
     </div>
     <el-divider content-position="left">预约列表</el-divider>
     <div>
@@ -89,11 +35,7 @@
             >修改
           </el-button> -->
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="danger"
-              @click="deleteBooking(scope.row)"
-              >取消预约
+            <el-button size="mini" type="danger" @click="deleteBooking(scope.row)">取消预约
             </el-button>
           </template>
         </el-table-column>
@@ -110,8 +52,8 @@
             </el-select>
           </el-form-item>
           <el-form-item label="选择医生" prop="region">
-            <el-select v-model="form.doctor" placeholder="请选择预约类型">
-              <el-option label="wu" value="wu"></el-option>
+            <el-select v-model="form.doctor" placeholder="请选择医生" @click="findAllDoctor()">
+              <el-option v-for="(item, key) in doctorList" :key="key" :label="item.name" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="用户电话" prop="tel">
@@ -119,12 +61,8 @@
           </el-form-item>
           <el-form-item label="预约时间">
             <el-col :span="11">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
-                v-model="form.date"
-                value-format="yyyy-MM-dd"
-              ></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="form.date"
+                value-format="yyyy-MM-dd"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="预约类型" prop="region">
@@ -163,7 +101,19 @@ export default {
       searchInfo: '',
       select: '',
       searchList: '',
-      tableData: [{}]
+      tableData: [{}],
+      doctorList: [{
+        name: 'wu',
+        value: 'wu'
+      },
+      {
+        name: '张三',
+        value: '张三'
+      },
+      {
+        name: '李四',
+        value: '李四'
+      }]
     }
   },
   mounted () {
@@ -219,6 +169,16 @@ export default {
       console.log(row)
       this.$get(this.$api.url.deleteBooking, { id: row._id }).then((res) => {
         this.getAllBooking()
+      })
+    },
+    // 获取所有医生
+    findAllDoctor () {
+      const form = {
+        page: 1
+      }
+      this.$get(this.$api.url.allDoctor, form).then((res) => {
+        this.doctorList = res.content
+        console.log('doctor' + res.content)
       })
     }
   }

@@ -9,6 +9,11 @@ class API {
     addCases: 'cases/addCases', // 新增病历单
     findCases: 'cases/find', // 模糊查询病历
 
+    allAppointments: 'appointments/findAll', // 手术预约
+    addAppointments: 'appointments/addAppointments', // 新增手术预约
+    deleteAppointments: 'appointments/deleteAppointments', // 删除手术预约
+    findAppointments: 'appointments/find', // 模糊查询手术预约
+
     allSurgery: 'surgery/findAll', // 手术记录
     addSurgery: 'surgery/addSurgery', // 新增手术记录
     deleteSurgery: 'surgery/deleteSurgery', // 删除手术记录
@@ -24,10 +29,17 @@ class API {
     deletePet: 'pet/deletePet', // 删除宠物
     findPet: 'pet/find', // 模糊查询宠物
 
-    allAdopt: 'adopt/findAll', // 领养记录
-    addAdopt: 'adopt/addAdopt', // 新增领养记录
-    deleteAdopt: 'adopt/deleteAdopt', // 删除领养记录
-    findAdopt: 'adopt/find', // 模糊查询领养记录
+    allAdopt: 'adopt/findAll', // 领养
+    addAdopt: 'adopt/addAdopt', // 新增领养
+    deleteAdopt: 'adopt/deleteAdopt', // 删除领养
+    findAdopt: 'adopt/find', // 模糊查询领养
+    siftAdopt: 'adopt/sift', // 多条件筛选领养
+    changeState: 'adopt/changeState', // 修改领养状态
+
+    allAdrecord: 'adrecord/findAll', // 领养记录
+    addAdrecord: 'adrecord/addAdrecord', // 新增领养记录
+    deleteAdrecord: 'adrecord/deleteAdrecord', // 删除领养记录
+    findAdrecord: 'adrecord/find', // 模糊查询领养记录
 
     allPurchase: 'purchase/findAll', // 进货记录
     addPurchase: 'purchase/addPurchase', // 新增进货记录

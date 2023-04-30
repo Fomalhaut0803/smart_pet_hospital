@@ -3,19 +3,9 @@
         <!-- <h2 class="tac">嘿嘿嘿宠物医院</h2> -->
         <el-col :span="12">
             <el-menu unique-opened default-active="1-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-                <!-- <el-submenu index="1">
-                    <template slot="title">
-                        <i class="el-icon-location"></i>
-                        <span>宠物看病</span>
-                    </template>
-                    <el-menu-item-group>
-                        <el-menu-item index="1-1" @click="navTo('/doctorIndex/PatientList')">宠物病历</el-menu-item>
-                        <el-menu-item index="1-2" @click="navTo('/doctorIndex/visit')">预约处理</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu> -->
-                <el-menu-item index="1">
+                <el-menu-item index="1" @click="navTo('/doctorIndex/PatientList')">
                     <i class="el-icon-setting"></i>
-                    <span slot="title">预约处理</span>
+                    <span slot="title" >预约处理</span>
                 </el-menu-item>
                 <el-submenu index="2">
                     <template slot="title">
@@ -23,8 +13,8 @@
                         <span>手术</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1" @click="jumpTo('https://channel.jd.com/pet.html')">手术预约</el-menu-item>
-                        <el-menu-item index="2-2">历史手术</el-menu-item>
+                        <el-menu-item index="2-1" @click="navTo('/doctorIndex/Appointments')">手术预约</el-menu-item>
+                        <el-menu-item index="2-2" @click="navTo('/doctorIndex/Surgery')">历史手术</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>

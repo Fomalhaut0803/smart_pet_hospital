@@ -12,10 +12,10 @@
     <div class="banner">
       <div class="sys" @click="navTo('/doctorIndex')">医生端</div>
       <div class="sys" @click="navTo('/userIndex/bookingDoctor')">客户端</div>
-      <!-- <div class="sys" @click="navTo('/manageIndex')">管理员端</div> -->
-      <div class="sys" @click="linkTo('http://192.168.1.102:8082/index/inventoryManagement')">
+      <div class="sys" @click="navTo('/manageIndex')">管理员端</div>
+      <!-- <div class="sys" @click="linkTo('http://localhost:8082/index/inventoryManagement')">
         管理员端
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -87,6 +87,7 @@ export default {
 .banner {
   display: flex;
   height: 20%;
+  padding:50px;
 
   .sys {
     width: 33.33%;

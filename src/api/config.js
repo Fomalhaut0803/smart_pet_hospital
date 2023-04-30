@@ -1,8 +1,7 @@
 import Qs from 'qs'
 export default {
 
-  baseURL: 'http://192.168.1.102:8080/',
-  // baseURL:'http://192.168.31.130:8880/',
+  baseURL: 'http://localhost:8080/',
   method: 'POST',
 
   transformRequest: [function (data) {
