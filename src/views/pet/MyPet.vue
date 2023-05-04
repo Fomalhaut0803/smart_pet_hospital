@@ -1,23 +1,37 @@
 <template>
   <div class="myPet">
     <div class="pets">
-      <div class="pet" v-for="(item, index) in petList" :key="item._id">
-        <el-card class="pet-card" shadow="hover" :body-style="{ padding: '0px' }">
+      <div class="pet" v-for="item in petList" :key="item._id">
+        <el-card
+          class="pet-card"
+          shadow="hover"
+          :body-style="{ padding: '0px' }"
+        >
           <div slot="header" class="clearfix">
             <span>{{ item.petName }}</span>
-            <el-button style="float: right; padding: 3px 0" type="text" @click="navTo(item)">宠物详情</el-button>
+            <el-button
+              style="float: right; padding: 3px 0"
+              type="text"
+              @click="navTo(item)"
+              >宠物详情</el-button
+            >
           </div>
-          <img :src="imgList[index]" class="image" />
+          <img :src="item.picture" class="image" />
         </el-card>
       </div>
       <div class="add">
         <el-button type="text" @click="dialogVisible = true">
-          <img src="../.././assets/images/main/add.png" alt="">
+          <img src="../.././assets/images/main/add.png" alt="" />
         </el-button>
       </div>
     </div>
     <div>
-      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-dialog
+        title="新增"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="handleClose"
+      >
         <el-form ref="form" :model="form" label-width="80px">
           <!-- <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card"
             :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
@@ -28,6 +42,20 @@
           </el-dialog> -->
           <el-form-item label="宠物名字">
             <el-input v-model="form.petName"></el-input>
+          </el-form-item>
+          <el-form-item label="图片">
+            <el-upload
+              class="upload-demo"
+              action="http://192.168.43.46:8888/upload"
+              :on-success="uploadImg"
+              list-type="picture"
+              :file-list="[]"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">
+                只能上传jpg/png文件，且不超过500kb
+              </div>
+            </el-upload>
           </el-form-item>
           <el-form-item label="宠物性别">
             <el-select v-model="form.sex" placeholder="请选择宠物性别">
@@ -64,17 +92,24 @@ export default {
         age: '',
         type: ''
       },
-      imgList: [require('../../assets/images/loginImg/cat1.jpg'),
+      imgList: [
+        require('../../assets/images/loginImg/cat1.jpg'),
         require('../../assets/images/loginImg/hamster3.png'),
         require('../../assets/images/loginImg/dog2.png'),
         require('../../assets/images/loginImg/panda.webp'),
-        require('../../assets/images/loginImg/sanhuacat.webp')]
+        require('../../assets/images/loginImg/sanhuacat.webp')
+      ]
     }
   },
   mounted () {
     this.getAllPets()
   },
   methods: {
+    // 图片上传
+    uploadImg (res) {
+      console.log(res)
+      this.form.picture = res.obj.tempFileURL
+    },
     navTo (item) {
       this.$router.push({ name: 'PetDetail', params: item })
     },
@@ -92,15 +127,15 @@ export default {
     },
     handleClose (done) {
       this.$confirm('关闭后不再保存,确认关闭？')
-        .then(_ => {
+        .then((_) => {
           done()
         })
-        .catch(_ => { })
+        .catch((_) => {})
     },
     // 新增宠物
     getNewPet () {
       this.$post(this.$api.url.addPet, this.form).then((res) => {
-        this.dialogFormVisible = false
+        this.dialogVisible = false
         this.getAllPets()
       })
     }

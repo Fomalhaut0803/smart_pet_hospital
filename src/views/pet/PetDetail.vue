@@ -39,6 +39,20 @@
         <el-form-item label="宠物名">
           <el-input v-model="form.petName"></el-input>
         </el-form-item>
+                          <el-form-item label="图片">
+          <el-upload
+            class="upload-demo"
+            action="http://192.168.43.46:8888/upload"
+            :on-success="uploadImg"
+            list-type="picture"
+            :file-list="[]"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="性别">
           <!-- <el-input v-model="form.sex" disabled></el-input> -->
           <div>{{ form.sex }}</div>
@@ -51,7 +65,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="addPet()">添加</el-button>
+          <el-button type="primary" @click="addPet()">修改</el-button>
           <el-button @click="dialogFormVisible = false">取消</el-button>
         </el-form-item>
       </el-form>
@@ -73,6 +87,7 @@ export default {
   mounted () {
     this.petName = this.$route.params.petName
     this.petDetail = this.$route.params
+    this.form = { ...this.petDetail }
     this.form.sex = this.petDetail.sex
     this.form._id = this.petDetail._id
     console.log(this.petDetail)
@@ -86,6 +101,11 @@ export default {
     })
   },
   methods: {
+    // 图片上传
+    uploadImg (res) {
+      console.log(res)
+      this.form.picture = res.obj.tempFileURL
+    },
     navTo (url) {
       this.$router.push(url)
     },
