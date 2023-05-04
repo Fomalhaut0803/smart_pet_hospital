@@ -12,6 +12,14 @@ const routes = [
     },
     component: () => import('../views/home/HomeView.vue')
   },
+  {
+    path: '/login',
+    name: 'Home',
+    meta: {
+      name: '首页'
+    },
+    component: () => import('@/views/login/LoginView.vue')
+  },
   // 用户端
   {
     path: '/userIndex',

@@ -5,7 +5,7 @@
       <div class="block">
         <!-- <span class="demonstration">Click 指示器触发</span> -->
         <el-carousel trigger="click" height="500px" :interval=3000>
-          <el-carousel-item v-for="item in imgList" :key="item">
+          <el-carousel-item class="carousel" v-for="item in imgList" :key="item">
             <img :src="item" alt="">
             <!-- <img src="../../assets/images/荧光夜跑/1.jpg" alt=""> -->
             <!-- <h3 class="small">{{ item }}</h3> -->
@@ -85,6 +85,7 @@ export default {
 .login {
   width: 100%;
   height: 100%;
+  background: url('@/assets/images/loginImg/login_bg.png');
 }
 
 .left {
@@ -96,7 +97,10 @@ export default {
   .block {
     margin-top: 50px;
   }
-
+.carousel{
+  display: flex;
+  justify-content: center;
+}
   .el-carousel__item h3 {
     // color: #475669;
     font-size: 14px;

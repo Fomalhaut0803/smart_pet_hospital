@@ -1,5 +1,5 @@
 class API {
-  url={
+  url = {
     allBooking: 'booking/findAll', // 预约记录
     addBooking: 'booking/addBooking', // 新增预约
     deleteBooking: 'booking/deleteBooking', // 取消预约
@@ -71,13 +71,13 @@ class API {
     addUser: 'user/addUser', // 新增用户
     deleteUser: 'user/deleteUser', // 删除用户
     findUser: 'user/find', // 模糊查询用户
+    login: 'user/login',
 
     allDoctor: 'doctor/findAll', // 医生
     addDoctor: 'doctor/addDoctor', // 新增医生
     deleteDoctor: 'doctor/deleteDoctor', // 删除医生
     findDoctor: 'doctor/find' // 模糊查询医生
-
-  }
+  };
 }
 
 export default API

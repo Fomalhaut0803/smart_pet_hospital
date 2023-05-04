@@ -1,15 +1,32 @@
 <template>
   <div class="manage">
     <el-divider content-position="left">查询条件</el-divider>
-    <el-input style="width: 80%" placeholder="请输入内容" v-model="searchInfo" class="input-with-select">
+    <el-input
+      style="width: 80%"
+      placeholder="请输入内容"
+      v-model="searchInfo"
+      class="input-with-select"
+    >
       <el-select v-model="select" slot="prepend" placeholder="请选择">
-        <el-option v-for="(item, key) in searchList" :key="key" :label="item.name" :value="item.value"></el-option>
+        <el-option
+          v-for="(item, key) in searchList"
+          :key="key"
+          :label="item.name"
+          :value="item.value"
+        ></el-option>
       </el-select>
-      <el-button slot="append" icon="el-icon-search" @click="findSupplies()"></el-button>
+      <el-button
+        slot="append"
+        icon="el-icon-search"
+        @click="findSupplies()"
+      ></el-button>
     </el-input>
     <el-divider content-position="left">商品列表</el-divider>
     <el-table :data="suppliesInfo" style="width: 100%">
       <el-table-column label="商品名" prop="name"> </el-table-column>
+      <el-table-column label="图片" ><template slot-scope="scope">
+       <img :src="scope.row.picture" width="100%">
+      </template> </el-table-column>
       <el-table-column label="类型" prop="type"> </el-table-column>
       <el-table-column label="单位" prop="unit"> </el-table-column>
       <el-table-column label="库存" prop="inventoryNum"> </el-table-column>
@@ -24,21 +41,46 @@
           </div>
         </template> -->
         <template slot-scope="scope">
-          <el-button size="mini" @click="openUpdate(scope.row)">修改
+          <el-button size="mini" @click="openUpdate(scope.row)"
+            >修改
           </el-button>
-          <el-button size="mini" type="danger" @click="deleteSupplies(scope.row)">删除
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteSupplies(scope.row)"
+            >删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination align="right" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-      :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
+    <el-pagination
+      align="right"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage"
+      :page-size="pageSize"
+      layout="total, prev, pager, next"
+      :total="total"
+    >
     </el-pagination>
 
     <el-dialog title="修改商品" :visible.sync="FormVisible">
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="商品名">
           <el-input v-model="suppliesDetail.name"></el-input>
+        </el-form-item>
+        <el-form-item label="图片">
+          <el-upload
+            class="upload-demo"
+            action="http://192.168.43.46:8888/upload"
+            :on-success="uploadImg"
+            list-type="picture"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
+          </el-upload>
         </el-form-item>
         <el-form-item label="类型">
           <el-input v-model="suppliesDetail.type"></el-input>
@@ -49,16 +91,16 @@
         <el-form-item label="库存">
           <el-input v-model="suppliesDetail.inventoryNum"></el-input>
         </el-form-item>
-        <el-form-item label="进价" >
+        <el-form-item label="进价">
           <el-input v-model="suppliesDetail.purchasePrice" disabled></el-input>
         </el-form-item>
-        <el-form-item label="售价" >
+        <el-form-item label="售价">
           <el-input v-model="suppliesDetail.sellingPrice"></el-input>
         </el-form-item>
-        <el-form-item label="供货商" >
+        <el-form-item label="供货商">
           <el-input v-model="suppliesDetail.from"></el-input>
         </el-form-item>
-        <el-form-item label="描述" >
+        <el-form-item label="描述">
           <el-input v-model="suppliesDetail.description"></el-input>
         </el-form-item>
         <el-form-item>
@@ -86,14 +128,16 @@ export default {
       form: {},
       suppliesDetail: {},
       FormVisible: false,
-      searchList: [{
-        name: '商品名',
-        value: 'name'
-      },
-      {
-        name: '类型',
-        value: 'type'
-      }]
+      searchList: [
+        {
+          name: '商品名',
+          value: 'name'
+        },
+        {
+          name: '类型',
+          value: 'type'
+        }
+      ]
     }
   },
 
@@ -102,6 +146,11 @@ export default {
   },
 
   methods: {
+    // 图片上传
+    uploadImg (res) {
+      console.log(res)
+      this.suppliesDetail.picture = res.obj.tempFileURL
+    },
     // 获得全部领养列表
     getAllSupplies () {
       const form = {
