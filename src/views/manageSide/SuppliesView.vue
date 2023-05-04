@@ -75,6 +75,7 @@
             action="http://192.168.43.46:8888/upload"
             :on-success="uploadImg"
             list-type="picture"
+            :file-list="[]"
           >
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">

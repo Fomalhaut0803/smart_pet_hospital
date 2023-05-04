@@ -13,6 +13,9 @@
       </el-table-column>
       <el-table-column label="宠物名" prop="petName">
       </el-table-column>
+            <el-table-column label="图片" ><template slot-scope="scope">
+       <img :src="scope.row.picture" width="100%">
+      </template> </el-table-column>
       <el-table-column label="年龄" prop="age">
       </el-table-column>
       <el-table-column label="性别" prop="sex">
@@ -46,6 +49,20 @@
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="宠物名字">
           <el-input v-model="form.petName"></el-input>
+        </el-form-item>
+                <el-form-item label="图片">
+          <el-upload
+            class="upload-demo"
+            action="http://192.168.43.46:8888/upload"
+            :on-success="uploadImg"
+            list-type="picture"
+            :file-list="[]"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
+          </el-upload>
         </el-form-item>
         <el-form-item label="年龄">
           <el-input v-model="form.age"></el-input>
@@ -84,6 +101,20 @@
       <el-form label-width="100px">
         <el-form-item label="宠物名字">
           <el-input v-model="adoptDetail.petName"></el-input>
+        </el-form-item>
+                <el-form-item label="图片">
+          <el-upload
+            class="upload-demo"
+            action="http://192.168.43.46:8888/upload"
+            :on-success="uploadImgUpdate"
+            list-type="picture"
+            :file-list="[]"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
+          </el-upload>
         </el-form-item>
         <el-form-item label="年龄">
           <el-input v-model="adoptDetail.age"></el-input>
@@ -153,6 +184,14 @@ export default {
   },
 
   methods: {
+    // 图片上传
+    uploadImg (res) {
+      this.form.picture = res.obj.tempFileURL
+    },
+    // 图片上传
+    uploadImgUpdate (res) {
+      this.adoptDetail.picture = res.obj.tempFileURL
+    },
     // 获得全部领养列表
     getAllAdopt () {
       const form = {
