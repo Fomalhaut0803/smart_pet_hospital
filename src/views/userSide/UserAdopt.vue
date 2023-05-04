@@ -8,9 +8,9 @@
     </div>
     <el-divider content-position="left">领养列表</el-divider>
     <div class="adopts">
-      <div v-for="(item, index) in adoptInfo" :key="item._id" class="adopt">
+      <div v-for="(item) in adoptInfo" :key="item._id" class="adopt">
         <el-card :body-style="{ padding: '0px' }">
-          <img :src="imgList[index]"
+          <img :src="item.picture"
             class="image">
           <div style="padding: 14px;">
             <span>{{ item.petName }}</span>
